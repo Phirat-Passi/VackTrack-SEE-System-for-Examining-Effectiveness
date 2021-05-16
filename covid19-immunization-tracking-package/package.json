@@ -1,0 +1,33 @@
+{
+  "name": "covid19-immunization-tracking-package",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./features/*/*.js",
+    "lint:fix": "eslint ./features/*/*.js --fix",
+    "test": "env-cmd -f ./docker/.env.local cucumber-js -f progress-bar ./features/",
+    "test:remote": "env-cmd -f ./kubernetes/.env.remote cucumber-js -f progress-bar ./features/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jembi/covid19-immunization-tracking-package.git"
+  },
+  "author": "Jembi",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jembi/covid19-immunization-tracking-package/issues"
+  },
+  "homepage": "https://github.com/jembi/covid19-immunization-tracking-package#readme",
+  "dependencies": {
+    "@cucumber/cucumber": "^7.0.0",
+    "adm-zip": "0.5.4",
+    "axios": "0.21.1",
+    "env-cmd": "^10.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
+  }
+}
