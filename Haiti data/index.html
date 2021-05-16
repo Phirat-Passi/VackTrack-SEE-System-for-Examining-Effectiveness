@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <title>Haiti Crisis Map</title>
+    <meta name="description" content=" " />
+    <meta name="keywords" content=" " />
+    <meta name="robots" content="index, follow" /> 
+    <link rel="shortcut icon" href="/media/images/favicon.ico" />
+
+    <link href="./css/haiti.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="./css/gaz.css" rel="stylesheet" media="screen" type="text/css" />
+    
+    <script type="text/javascript" src="http://extjs.cachefly.net/builds/ext-cdn-2060.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://extjs.cachefly.net/ext-2.3.0/resources/css/ext-all.css" />
+    <link rel="stylesheet" href="http://openlayers.org/dev/theme/default/style.css" />
+    <script type="text/javascript" src="http://openlayers.org/api/2.8/OpenLayers.js"></script> 
+    <script type="text/javascript" src="js/GeoExt/script/GeoExt.js"></script> 
+    <script type="text/javascript" src="js/helpers.js"></script> 
+    <script type="text/javascript" src="js/ArgParser.js"></script> 
+    <script type="text/javascript" src="js/Controls.js"></script> 
+    <script type="text/javascript" src="js/Edit.js"></script> 
+    <script type="text/javascript" src="js/Permalink.js"></script> 
+    <script type="text/javascript" src="js/usng2.js"></script> 
+    <script type="text/javascript" src="js/MP.js"></script> 
+    <script type="text/javascript" src="js/Click.js"></script> 
+    <script type="text/javascript" src="js/dd2dms.js"></script> 
+    <script type="text/javascript" src="js/Gazetteer.js"></script> 
+
+    <!link rel="stylesheet" type="text/css" href="/media/css/nms_ol.css" /> 
+    
+
+
+    <script type="text/javascript">
+           var base_wms = 'http://hypercube.telascience.org/cgi-bin/mapserv?map=/home/racicot/haiti/mapfiles/basedata.map&';
+    </script>
+
+    <script type="text/javascript" src="./js/haiti.js"></script> 
+
+    <script type="text/javascript">
+      function setMapCenter() {
+        if (!HAITI.map.getCenter() || HAITI.map.getCenter().lon == 0) {
+          HAITI.map.setCenter(new OpenLayers.LonLat(-72.2, 19.0).transform(new OpenLayers.Projection("EPSG:4326"),
+                          new OpenLayers.Projection("EPSG:900913")),9);
+        }                  
+      }
+
+      function osmGaz (search) {
+          try { 
+            var u = new USNG2();
+            var data = u.toLonLat(search);
+            if (data && data.lon && data.lat) {
+                var lonlat = new OpenLayers.LonLat(data.lon, data.lat);
+                var zoom = HAITI.map.getZoom() > 14 ? HAITI.map.getZoom() : 14;
+                HAITI.map.setCenter(lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913")), zoom);
+                return;
+            }
+          } catch (E) {
+          }
+          var s = document.createElement("script");
+          s.src="http://nominatim.openstreetmap.org/haiti/?viewbox=-76.24%2C21%2C-69.2%2C17&format=json&json_callback=handleOsmLoc&q="+encodeURIComponent(search);
+          document.body.appendChild(s);
+      }
+      function handleOsmLoc(data) {
+          if (data.length) {
+          var go = confirm("Zoom to " + data[0].display_name + " (" + data[0].lon + ", " + data[0].lat +")?");
+              if (go) {
+                  var lonlat = new OpenLayers.LonLat(data[0].lon, data[0].lat);
+                  lonlat.transform(HAITI.map.displayProjection, HAITI.map.getProjectionObject());
+                  lookupLayer.destroyFeatures();
+                  lookupLayer.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat)));
+                  var zoom = HAITI.map.getZoom() > 15 ? HAITI.map.getZoom() : 15;
+                  HAITI.map.setCenter(lonlat, zoom);
+              }     
+          } else {
+              alert("No search results found");
+          } 
+      }
+
+    </script> 
