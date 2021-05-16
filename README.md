@@ -23,7 +23,8 @@ The COVID-19 Data Clearinghouse is a cloud-hosted data repository that receives,
 
 The COVID-19 Data Clearinghouse allows healthcare providers to search for a patient, see what brand of COVID-19 vaccine they received, and see when they received their first dose of COVID-19 vaccine to ensure dose matching and appropriate vaccination intervals to complete the vaccine series.
 
-![image](https://user-images.githubusercontent.com/67471222/118409514-6cbcb700-b6a8-11eb-9688-6d9bc6df0467.png)
+![image](https://user-images.githubusercontent.com/67471222/118409571-a2fa3680-b6a8-11eb-87cd-cf7aab8c9475.png)
+
 
 
 
